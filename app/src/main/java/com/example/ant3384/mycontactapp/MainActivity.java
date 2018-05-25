@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         editName = findViewById(R.id.editText_name);
 
 
+
         mydb = new DatabaseHelper(this);
         Log.d("MyContactApp", "Main Activity: instantiated myDB");
 
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         while(res.moveToNext()) {
             //Append res column 0,1,2,3 to the buffer - see stringBuffer and Cursor api's
             //Delimit each of the appends with line feed "/n"
+            int count = 0;
+            buffer.append(count + "/n");
+            showMessage("Name", editName.getText().toString());
+            showMessage("Phone", editPhone.getText().toString());
+            showMessage("Address", editAddress.getText().toString());
+
+
+            count++;
 
         }
 
