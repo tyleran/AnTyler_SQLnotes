@@ -71,10 +71,10 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="142dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="116dp"
-        android:layout_marginStart="36dp"
+        android:layout_width="165dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="140dp"
+        android:layout_marginStart="16dp"
         android:onClick="addData"
         android:text="Add Contact"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,11 +84,25 @@
         android:id="@+id/button2"
         android:layout_width="162dp"
         android:layout_height="55dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:onClick="viewData"
         android:text="View Contacts"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="98dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:onClick="SearchRecord"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

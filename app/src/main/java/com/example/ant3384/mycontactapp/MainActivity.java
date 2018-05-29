@@ -1,5 +1,6 @@
 package com.example.ant3384.mycontactapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper mydb;
     EditText editName;
+    EditText editPhone;
+    EditText editAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editName = findViewById(R.id.editText_name);
-
+        editPhone = findViewById(R.id.editText_phone);
+        editAddress = findViewById(R.id.editText_address);
 
 
         mydb = new DatabaseHelper(this);
@@ -60,14 +64,8 @@ public class MainActivity extends AppCompatActivity {
         while(res.moveToNext()) {
             //Append res column 0,1,2,3 to the buffer - see stringBuffer and Cursor api's
             //Delimit each of the appends with line feed "/n"
-            int count = 0;
-            buffer.append(count + "/n");
-            showMessage("Name", editName.getText().toString());
-            showMessage("Phone", editPhone.getText().toString());
-            showMessage("Address", editAddress.getText().toString());
-
-
-            count++;
+            buffer.append(res + "\n");
+            showMessage("Contacts", "Name: "+ editName.getText().toString() +"\nPhone: " + editPhone.getText().toString() + "\nAddress: " + editAddress.getText().toString());
 
         }
 
@@ -84,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    public static final String EXTRA_MESSAGE = "com.example.ant3384.mycontactapp.MESSAGE";
+    public void SearchRecord(View view){
+        Log.d("MyContactApp", "Main Activity: Launching SearchActivity");
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, editName.getText().toString());
+        startActivity(intent);
     }
 
 }
