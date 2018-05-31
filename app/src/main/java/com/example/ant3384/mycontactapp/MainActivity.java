@@ -36,13 +36,13 @@ public class MainActivity extends AppCompatActivity {
     public void addData(View view){
         Log.d("MyContactApp", "Main Activity: Add contact button pressed");
 
-        boolean isInserted = mydb.insertData(editName.getText().toString());
+        boolean isInserted = mydb.insertData(editName.getText().toString(), editAddress.getText().toString(), editPhone.getText().toString());
         if(isInserted == true){
-            makeText(MainActivity.this, "Success - Contact inserted", LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Success - Contact inserted", LENGTH_LONG).show();
         }
 
         else {
-            makeText(MainActivity.this, "Failed - Contact not inserted", LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Failed - Contact not inserted", LENGTH_LONG).show();
 
         }
 
@@ -51,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewData(View view){
         Cursor res =  mydb.getAllData();
-        Log.d("MyContactApp", "Main Activity: viewData: received cursor");
+        Log.d("MyContactApp", "Main Activity: viewData: received res");
 
         if (res.getCount() == 0) {
             showMessage("Error", "No data found in database");
-            return;
+
         }
 
 
@@ -64,13 +64,17 @@ public class MainActivity extends AppCompatActivity {
         while(res.moveToNext()) {
             //Append res column 0,1,2,3 to the buffer - see stringBuffer and Cursor api's
             //Delimit each of the appends with line feed "/n"
-            buffer.append(res + "\n");
-            showMessage("Contacts", "Name: "+ editName.getText().toString() +"\nPhone: " + editPhone.getText().toString() + "\nAddress: " + editAddress.getText().toString());
+            for (int i = 0; i < 4; i++)
+            {
+                buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
+            }
+            buffer.append("\n");
+
 
         }
+    showMessage("Data", buffer.toString());
 
-        showMessage("Data", buffer.toString());
-    }
+     }
 
 
 
@@ -88,8 +92,35 @@ public class MainActivity extends AppCompatActivity {
     public void SearchRecord(View view){
         Log.d("MyContactApp", "Main Activity: Launching SearchActivity");
         Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, editName.getText().toString());
+        intent.putExtra(EXTRA_MESSAGE, getRecords());
         startActivity(intent);
+
+
+
     }
+    private String getRecords(){
+        Cursor res = mydb.getAllData();
+        StringBuffer buffer = new StringBuffer();
+        int counter = 0;
+        while (res.moveToNext()) {
+            if (res.getString(1).equals(editName.getText().toString())) {
+                for (int i = 1; i < 4; i++) {
+                    buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
+                }
+                buffer.append("\n");
+                counter++;
+            }
+        }
+
+        if (counter == 0) {
+            return "No entries with the Name: '" + editName.getText().toString() + "'";
+        } else {
+            String name = editName.getText().toString();
+            if (name.equals("")) name = " ";
+            buffer.insert(0, counter + " entries with the name '" + name + "'\n\n");
+            return buffer.toString();
+        }
+    }
+
 
 }
